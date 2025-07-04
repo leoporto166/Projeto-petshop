@@ -1,1 +1,18 @@
 @import "tailwindcss";
+
+.custom-slide {
+  transform: scale(0.85);
+  transition: transform 0.4s ease;
+}
+
+/* Slide ativo */
+.custom-slide.swiper-slide-active {
+  transform: scale(100); /* aumenta o slide central */
+  z-index: 10;
+}
+
+/* Slide vizinho */
+.custom-slide.swiper-slide-prev,
+.custom-slide.swiper-slide-next {
+  transform: scale(0.95);
+}
