@@ -46,11 +46,10 @@ export function Home(){
     return(
         <main className="w-full  px-2 h-screen flex flex-col items-center">
             <div className='w-full max-w-7xl'>
-                Home
                 <div className="w-full flex justify-center">
                     <Swiper
                         modules={[Navigation, Pagination, Autoplay]}
-                        spaceBetween={2}
+                        spaceBetween={10}
                         slidesPerView={3}
                         centeredSlides={true}
                         pagination={{ clickable: true }}
@@ -60,12 +59,12 @@ export function Home(){
                             320: { slidesPerView: 1 },
                             640: { slidesPerView: 1.5 },
                             1024: { slidesPerView: 2 },
-                            1440: { slidesPerView: 2 },
+                            1440: { slidesPerView: 2},
                         }}
                     >
                         {cards.map((card) => (
                             <SwiperSlide key={card.id} className="custom-slide">
-                                <div className="w-[300px] sm:w-[400px] lg:w-[500px] xl:w-[640px] flex items-center justify-center">
+                                <div className="w-[300px] sm:w-[400px] lg:w-[500px] xl:w-[600px] flex items-center justify-center">
                                     <img
                                     src={card.img}
                                     className="rounded-lg transition-transform duration-500 ease-in-out"
@@ -75,13 +74,13 @@ export function Home(){
                             ))}
                     </Swiper>
                 </div>
-                    <div className=''>
-                        <h1>Produtos</h1>
+                    <div className="font-bold text-2xl">
+                        <h1>Principais Produtos</h1>
                     </div>
-                    <section className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4' >
+                    <section className='flex flex-wrap items-center justify-center gap-5' >
                 {products.map((product) => (
 
-                        <div key={product.id}className='w-[150px] my-3'>
+                        <div key={product.id}className='w-[200px] my-3 sm:w-[250px] shadow-sm p-2 '>
                             <img src={product.cover} className=''></img>
                             <h1>{product.title}</h1>
                             <strong>Preço: {product.price.toLocaleString("pt-Br", {
@@ -89,9 +88,11 @@ export function Home(){
                                 currency: "BRL"
                             })}</strong>
 
-                            <button className='w-full bg-amber-300 rounded cursos-pointer font-semibold my-2'>
-                                COMPRAR
-                            </button>
+                            <div className='w-full justify-center flex'>
+                                <button className='w-55 bg-amber-300 rounded cursor-pointer font-semibold my-2 h-9 shadow-sm hover:scale-105 transition duration-300'>
+                                    COMPRAR
+                                </button>
+                            </div>
                         </div>
                 ))}
                 </section>
