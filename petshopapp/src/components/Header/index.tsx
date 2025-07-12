@@ -9,8 +9,11 @@ export function Header(){
                     <h1 className="bg-gradient-to-r from-yellow-300 via-yellow-300 to-black font-bold text-xl bg-clip-text text-transparent">Nobre</h1>
                         <h2 className="text-black font-bold text-xl">Pet</h2>
                 </span>
-                <Link to={"/carrinho"}>
-                    <FiShoppingCart size={18} className="text-yellow-500"></FiShoppingCart>
+                <Link to={"/carrinho"}
+                className="relative pr-2">
+                    <FiShoppingCart size={25} className=""></FiShoppingCart>
+                    <span className="absolute -top-1.5 -right-1 px-2.5
+                    rounded-full w-6 h-6 flex items-center justify-center text-white bg-yellow-300">0</span>
                 </Link>
             </div>
         </header>

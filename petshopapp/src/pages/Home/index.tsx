@@ -2,6 +2,8 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
+
+import { Link } from 'react-router-dom';
 import card1 from "../../../img/banner-bawwaw-mobile-1.jpg"
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
@@ -13,7 +15,7 @@ interface CardProps{
     img: string
 }
 
-interface ProductsProps{
+export interface ProductsProps{
     id: number;
     title: string;
     description: string;
@@ -35,7 +37,7 @@ export function Home(){
         async function loadApi(){
             const response = await api.get("/products")
         
-            setProducts(response.data)
+            setProducts(response.data) 
             console.log(setProducts)
         }
 
@@ -81,16 +83,18 @@ export function Home(){
                 {products.map((product) => (
 
                         <div key={product.id}className='w-[200px] my-3 sm:w-[250px] shadow-sm p-2 '>
-                            <img src={product.cover} className=''></img>
-                            <h1>{product.title}</h1>
-                            <strong>Preço: {product.price.toLocaleString("pt-Br", {
-                                style: "currency",
-                                currency: "BRL"
-                            })}</strong>
+                            <Link to={`/detalhes/${product.id}`}>
+                                <img src={product.cover} className=''></img>
+                                <h1>{product.title}</h1>
+                                <strong>Preço: {product.price.toLocaleString("pt-Br", {
+                                    style: "currency",
+                                    currency: "BRL"
+                                })}</strong>
+                            </Link>
 
                             <div className='w-full justify-center flex'>
                                 <button className='w-55 bg-amber-300 rounded cursor-pointer font-semibold my-2 h-9 shadow-sm hover:scale-105 transition duration-300'>
-                                    COMPRAR
+                                    ADICIONAR
                                 </button>
                             </div>
                         </div>
