@@ -9,6 +9,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import { useState, useEffect } from 'react';
 import { api } from '../../services/api';
+import { useContext } from 'react';
+import { CartContext } from '../../context/context';
 
 interface CardProps{
     id: number
@@ -21,10 +23,14 @@ export interface ProductsProps{
     description: string;
     price: number;
     cover: string;
+    subtotal: number;
+    order: number;
 }
 
 export function Home(){
     const [products, setProducts] = useState<ProductsProps[]>([])
+
+    const {addItemCart} = useContext(CartContext)
 
     const cards: CardProps[] = [
         {id: 1, img: card1},
@@ -44,6 +50,12 @@ export function Home(){
         loadApi();
 
     }, [])
+
+    function addItem(product: ProductsProps){
+
+        addItemCart(product)
+
+    }
 
     return(
         <main className="w-full  px-2 h-screen flex flex-col items-center">
@@ -93,7 +105,7 @@ export function Home(){
                             </Link>
 
                             <div className='w-full justify-center flex'>
-                                <button className='w-55 bg-amber-300 rounded cursor-pointer font-semibold my-2 h-9 shadow-sm hover:scale-105 transition duration-300'>
+                                <button className='w-55 bg-amber-300 rounded cursor-pointer font-semibold my-2 h-9 shadow-sm hover:scale-105 transition duration-300' onClick={() => addItem(product)}>
                                     ADICIONAR
                                 </button>
                             </div>
