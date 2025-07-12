@@ -1,4 +1,4 @@
-import { type ReactNode, createContext, useState } from "react";
+import { type ReactNode, createContext, useState, useEffect } from "react";
 import { type ProductsProps } from "../pages/Home";
 
 
@@ -9,7 +9,11 @@ interface CartProviderProps{
 interface CartContextData {
   cart: CartProps[];
   cartAmount: number;
-  addItemCart: (newItem: ProductsProps) => void
+  total: number;
+  addItemCart: (newItem: ProductsProps) => void;
+  calcTotal: () => void;
+  removeItem: (olditem: ProductsProps) => void;
+  trashItem: (binItem: ProductsProps) => void;
 }
 
 export interface CartProps {
@@ -28,6 +32,7 @@ export const CartContext = createContext({} as CartContextData)
 export function CartProvider({ children }: CartProviderProps){
 
     const [cart, setCart] = useState<CartProps[]>([])
+    const [total, setTotal] = useState(0)
 
     function addItemCart(newItem: ProductsProps){
 
@@ -59,12 +64,64 @@ export function CartProvider({ children }: CartProviderProps){
 
     }
 
+    function calcTotal(){
+        if(cart.length > 0){
+
+            let productTotal = 0
+            for(let i = 0; i < cart.length; i++){
+                 productTotal += cart[i].subtotal 
+            }
+
+            setTotal(productTotal)
+        
+        }
+    }
+
+    function removeItem(olditem: ProductsProps){
+        const indexItem = cart.findIndex(item => item.id === olditem.id)
+
+        if (indexItem === -1) return;
+
+        if(cart[indexItem].amount > 1){
+            const cartList = [...cart]
+
+            cartList[indexItem].amount += -1
+            cartList[indexItem].subtotal = cartList[indexItem].subtotal - cartList[indexItem].price
+            
+            setCart(cartList)
+            return
+
+        }
+
+        const update = cart.filter(item => item.id !== olditem.id)
+        setCart(update)
+
+        
+    }
+
+    function trashItem(binItem: ProductsProps){
+        const bin = cart.filter(item => item.id !== binItem.id)
+
+        setCart(bin)
+    }
+
+    useEffect(() => {
+        calcTotal()
+    }, [cart])
+
+    
+
 
     return(
         <CartContext.Provider value={{
             cart,
             cartAmount: cart.length,
-            addItemCart
+            total,
+            addItemCart,
+            calcTotal,
+            removeItem,
+            trashItem,
+            
         }}>
             {children}
         </CartContext.Provider>

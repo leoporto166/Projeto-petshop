@@ -4,12 +4,15 @@ import { useEffect, useState } from "react";
 import { api } from '../../services/api';
 import { type ProductsProps } from "../Home";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { CartContext } from "../../context/context";
 
 export function Detalhes(){
 
     const {id} = useParams();
     const [item, setItem] = useState<ProductsProps>()
     const navigate = useNavigate()
+    const {addItemCart} = useContext(CartContext)
 
     useEffect(() => {
 
@@ -30,6 +33,12 @@ export function Detalhes(){
         loadItem()
 
     }, [id])
+
+    function addItem(item: ProductsProps){
+        addItemCart(item)
+        navigate("/carrinho")
+
+    }
     
     return(
         <main className="w-full flex justify-center items-center" >
@@ -40,7 +49,7 @@ export function Detalhes(){
                     <div className=" h-75 lg:h-110 w-full flex flex-col justify-center">
                         <h1 className="pt-4 font-semibold text-lg">{item?.title}</h1>
                         <h1 className="py-2">{item?.description}</h1>
-                        <button className='w-full bg-amber-300 rounded cursor-pointer font-semibold my-2 h-9 shadow-sm hover:scale-101 transition duration-300'>
+                        <button className='w-full bg-amber-300 rounded cursor-pointer font-semibold my-2 h-9 shadow-sm hover:scale-101 transition duration-300' onClick={() => addItem(item)}>
                             COMPRAR
                         </button>
                     </div>
